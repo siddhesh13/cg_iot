@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/torch_service.dart';
 import '../widgets/torch_toggle_button.dart';
-//import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 
 class FlashlightScreen extends StatefulWidget {
@@ -15,8 +14,6 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
   bool isPollingEnabled = false;
   String airtableAccessToken = '';
   String airtableBaseId = '';
-  //final AudioPlayer _audioPlayer = AudioPlayer();
-  //bool _isRingtonePlaying = false;
 
   @override
   void initState() {
@@ -50,29 +47,10 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
   void _stopPolling() {
     _timer?.cancel();
   }
-/*
-  void _checkAndPlayRingtone() {
-    if (torchService.isTorchOn && !_isRingtonePlaying) {
-      _playRingtone();
-    } else if (!torchService.isTorchOn && _isRingtonePlaying) {
-      _stopRingtone();
-    }
-  }
 
-  void _playRingtone() async {
-    _isRingtonePlaying = true;
-    await _audioPlayer.play(AssetSource('assets/sounds/ringtone.mp3')); // Specify the path to your ringtone file
-  }
-
-  void _stopRingtone() async {
-    _isRingtonePlaying = false;
-    await _audioPlayer.stop();
-  }
-  */
   @override
   void dispose() {
     _timer?.cancel();
-    //_audioPlayer.dispose();
     super.dispose();
   }
 

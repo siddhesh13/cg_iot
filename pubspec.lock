@@ -240,14 +240,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.0"
-  mic_stream:
-    dependency: "direct main"
-    description:
-      name: mic_stream
-      sha256: "1db1ec77bdd8ffc0d1c5cc606398612930312a96462220add5ea24aa9da73210"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.1+2"
   path:
     dependency: transitive
     description:
@@ -304,54 +296,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
-  permission_handler:
-    dependency: transitive
-    description:
-      name: permission_handler
-      sha256: "18bf33f7fefbd812f37e72091a15575e72d5318854877e0e4035a24ac1113ecb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "11.3.1"
-  permission_handler_android:
-    dependency: transitive
-    description:
-      name: permission_handler_android
-      sha256: eaf2a1ec4472775451e88ca6a7b86559ef2f1d1ed903942ed135e38ea0097dca
-      url: "https://pub.dev"
-    source: hosted
-    version: "12.0.8"
-  permission_handler_apple:
-    dependency: transitive
-    description:
-      name: permission_handler_apple
-      sha256: e6f6d73b12438ef13e648c4ae56bd106ec60d17e90a59c4545db6781229082a0
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.4.5"
-  permission_handler_html:
-    dependency: transitive
-    description:
-      name: permission_handler_html
-      sha256: "6cac773d389e045a8d4f85418d07ad58ef9e42a56e063629ce14c4c26344de24"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
-  permission_handler_platform_interface:
-    dependency: transitive
-    description:
-      name: permission_handler_platform_interface
-      sha256: fe0ffe274d665be8e34f9c59705441a7d248edebbe5d9e3ec2665f88b79358ea
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.2"
-  permission_handler_windows:
-    dependency: transitive
-    description:
-      name: permission_handler_windows
-      sha256: "1a790728016f79a41216d88672dbc5df30e686e811ad4e698bfc51f76ad91f1e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   platform:
     dependency: transitive
     description:
@@ -485,14 +429,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
-  torch_flashlight:
+  torch_light:
     dependency: "direct main"
     description:
-      name: torch_flashlight
-      sha256: "1b4cdf99546d63d982768851ded613a79ef12a96d3864063a3fe198e0f1aa572"
+      name: torch_light
+      sha256: a1397443a375c6991151547cb77361085df6cf8aa59999292e683db7385a0d15
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "1.1.0"
   typed_data:
     dependency: transitive
     description:

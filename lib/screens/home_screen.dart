@@ -1,7 +1,7 @@
 // lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'flashlight_screen.dart';
-import 'microphone_screen.dart';
+//import 'microphone_screen.dart';
 import 'brightness_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,8 +13,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     FlashlightScreen(),
-    MicrophoneScreen(),
-    BrightnessScreen()
+    //MicrophoneScreen(),
+    const BrightnessScreen()
   ];
 
   void onTabTapped(int index) {
@@ -37,10 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.flashlight_on),
             label: 'Flashlight',
           ),
+          /*
           BottomNavigationBarItem(
             icon: Icon(Icons.mic),
             label: 'Microphone',
           ),
+          */
           BottomNavigationBarItem(
             icon: Icon(Icons.brightness_6),
             label: 'Brightness',
