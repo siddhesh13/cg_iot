@@ -14,7 +14,6 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
   bool isPollingEnabled = false;
   String airtableAccessToken = '';
   String airtableBaseId = '';
-
   @override
   void initState() {
     super.initState();
@@ -40,7 +39,9 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
   void _startPolling() {
     _timer = Timer.periodic(Duration(seconds: 30), (Timer t) async {
       await torchService.fetchDataFromAirtable(airtableAccessToken, airtableBaseId);
-      setState(() {}); // Update UI if necessary
+      setState(() {
+       
+      }); // Update UI if necessary
     });
   }
 
@@ -58,7 +59,7 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flashlight'),
+        title: Text('Flashlight',style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.blueAccent, // Set AppBar color
       ),
       body: SingleChildScrollView(
@@ -73,6 +74,7 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 20),
+            
             TextField(
               decoration: InputDecoration(
                 labelText: 'Airtable Access Token',
@@ -107,6 +109,12 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
                     _togglePolling(value);
                   },
                 ),
+                // Icon to represent audio status
+            Icon(
+              torchService.isAudioPlaying ? Icons.music_note : Icons.music_off,
+              size: 30,
+              color: torchService.isAudioPlaying ? Colors.green : Colors.red,
+            ),
               ],
             ),
           ],

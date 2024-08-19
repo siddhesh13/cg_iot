@@ -1,4 +1,5 @@
 // lib/main.dart
+import 'package:cg_iot/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
 
@@ -14,7 +15,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
+      home: HomeScreen(),//SplashScreen(),
     );
   }
 }
+//keep credentials
+//theme
+//app size

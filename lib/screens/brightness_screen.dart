@@ -81,7 +81,7 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Screen Brightness'),
+        title: const Text('Screen Brightness',style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blueAccent, // Set AppBar color
       ),
       body: SingleChildScrollView(  // Make the screen scrollable
