@@ -64,7 +64,7 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
 
   void _startAmbientLightUpdate() {
     // Upload ambient light data to ThingSpeak every 1 minute
-    _timer = Timer.periodic(const Duration(minutes: 1), (Timer t) async {
+    _timer = Timer.periodic(const Duration(seconds: 30), (Timer t) async {
       if (_isUploadingEnabled && _thingspeakApiKey.isNotEmpty) {
         String statusMessage = await _uploadAmbientLightToThingSpeak();
         showSnackBar(context, statusMessage);

@@ -6,6 +6,8 @@ import 'package:torch_light/torch_light.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:vibration/vibration.dart'; // Import the vibration package
+
 
 class TorchService {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
@@ -139,14 +141,25 @@ class TorchService {
   }
 
   Future<void> playAudio() async {
-    try {
-      isAudioPlaying = true;
-      await _audioPlayer.play(AssetSource('music/ringtone.mp3')); // Play audio from assets folder
-    } catch (e) {
-      //print('Could not play audio: $e');
-      showSnackBar('Could not stop audio: $e');
+  try {
+    isAudioPlaying = true;
+    
+    if (Platform.isIOS) {
+      await _audioPlayer.play(AssetSource('music/ringtone.mp3')); // Play iOS-specific audio file
+    } else {
+      await _audioPlayer.play(AssetSource('music/android.mp3')); // Play audio for other platforms (Android, etc.)
     }
+    // Vibrate the phone if vibration is available
+      if ((await Vibration.hasVibrator()) == true) {
+  Vibration.vibrate();
+} else {
+  // Handle the case where the device does not have a vibrator or the result is null
+  showSnackBar('This device does not support vibration.');
+}
+  } catch (e) {
+    showSnackBar('Could not play audio: $e');
   }
+}
 
   Future<void> stopAudio() async {
     try {
@@ -156,5 +169,14 @@ class TorchService {
       //print('Could not stop audio: $e');
       showSnackBar('Could not stop audio: $e');
     }
+    try {
+    if ((await Vibration.hasVibrator()) == true) {
+      Vibration.cancel();  // Stop the vibration
+    } else {
+      showSnackBar('This device does not support vibration.');
+    }
+  } catch (e) {
+    showSnackBar('Could not stop vibration: $e');
+  }
   }
 }

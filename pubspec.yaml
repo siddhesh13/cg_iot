@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.3.2
   light: ^3.0.1
   package_info: ^2.0.2
+  vibration: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,7 @@ flutter:
   assets:
     - assets/images/logo.jpg
     - assets/music/ringtone.mp3
+    - assets/music/android.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

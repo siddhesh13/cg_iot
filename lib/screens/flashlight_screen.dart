@@ -32,7 +32,7 @@ class _FlashlightScreenState extends State<FlashlightScreen> {
     _airtableAccessTokenController = TextEditingController();
     _airtableBaseIdController = TextEditingController();
     _loadCredentials();
-    _saveCredentials();
+    //_saveCredentials();
   }
 
   Future<void> _loadCredentials() async {
