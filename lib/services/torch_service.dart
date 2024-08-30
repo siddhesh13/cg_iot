@@ -1,70 +1,134 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:torch_light/torch_light.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
 
 class TorchService {
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
+
+  TorchService({required this.scaffoldMessengerKey});
   bool isTorchOn = false;
   bool isAudioPlaying = false;
   final String tableName = 'Control'; // Replace with your Airtable Table Name
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  Future<void> fetchDataFromAirtable(String airtableAccessToken, String airtableBaseId) async {
+
+  // Helper method to show SnackBar using the ScaffoldMessengerKey
+  void showSnackBar(String message) {
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+  Future<String> fetchDataFromAirtable(String airtableAccessToken, String airtableBaseId) async {
     final url = 'https://api.airtable.com/v0/$airtableBaseId/$tableName?maxRecords=1&view=Grid%20view';
-    if (airtableAccessToken.isNotEmpty && airtableBaseId.isNotEmpty) {
-      print("Request sent");
+    
+    if (airtableAccessToken.isEmpty || airtableBaseId.isEmpty) {
+      return 'Invalid Airtable credentials';
+    }
+
+    try {
       final response = await http.get(
         Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $airtableAccessToken',
         },
-      );
-
-      print(response);
-      print(response.body);
+      ).timeout(Duration(seconds: 10), onTimeout: () {
+        // Handle request timeout
+        return http.Response('Request Timeout', 408);
+      });
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final flashlightStatus = data['records'][0]['fields']['Flashlight Status']; // Replace 'Flashlight Status' with the actual field name
-        final audioControl = data['records'][0]['fields']['Audio Control']; // Replace 'Audio Control' with the actual field name
+        try {
+          final data = json.decode(response.body);
+          final flashlightStatus = data['records'][0]['fields']['Flashlight Status']; // Replace with the actual field name
+          if(flashlightStatus!=null){
+          String statusMessage = 'No action taken';
+          
+          if (flashlightStatus.toLowerCase() == 'on') {
+            await enableTorch();
+            isAudioPlaying = false;
+            statusMessage = 'ok';
+          } else{
+            await disableTorch();
+            isAudioPlaying = false;
+            isTorchOn = false;
+            statusMessage = 'ok';
+          }
 
-        if (flashlightStatus == 'ON' || flashlightStatus == 'On' || flashlightStatus == 'on') {
-          enableTorch();
-          isAudioPlaying = false;
-        } else {
-          disableTorch();
-          isAudioPlaying = false;
-          isTorchOn = false;
-        }
+          if (flashlightStatus.toLowerCase() == 'play') {
+            await playAudio();
+            isTorchOn = false;
+            statusMessage = 'ok';
+          } else{
+            await stopAudio();
+            isAudioPlaying = false;
+            statusMessage = 'ok';
+          }
 
-        if (flashlightStatus == 'PLAY' || flashlightStatus == 'Play' || flashlightStatus == 'play') {
-          playAudio();
-          isTorchOn = false;
-        } else {
-          stopAudio();
-          isTorchOn = false;
+          return statusMessage;
+          }else{
+            return "ok";
+          }
+        } catch (e) {
+          return 'Error parsing response data: ${e.toString()}';
         }
+      } else if (response.statusCode == 429) {
+        return 'Rate limit exceeded. Please try again later.';
+      } else if (response.statusCode == 403 || response.statusCode == 404) {
+        return 'Invalid API Key or Base ID. Please check your Airtable credentials.';
+      } else {
+        return 'Error: ${response.statusCode} - ${response.reasonPhrase}';
       }
+    } on SocketException {
+      return 'Network error. Please check your internet connection.';
+    } on FormatException {
+      return 'Malformed URL. Please check the URL format.';
+    } on TimeoutException {
+      return 'Request timed out. Please try again later.';
+    } catch (e) {
+      return 'Unexpected error: ${e.toString()}';
     }
   }
 
+
   Future<void> enableTorch() async {
     try {
-      await TorchLight.enableTorch();
-      isTorchOn = true;
+      if (await TorchLight.isTorchAvailable()) {
+        await TorchLight.enableTorch();
+        isTorchOn = true;
+      } else {
+        showSnackBar('Torch is not available on this device.');
+      }
     } catch (e) {
-      print('Could not enable torch: $e');
+      if (e.toString().contains('TorchCurrentlyInUse')) {
+        showSnackBar('Torch is currently in use by another application.');
+      } else {
+        showSnackBar('Could not enable torch: $e');
+      }
     }
   }
 
   Future<void> disableTorch() async {
     try {
-      await TorchLight.disableTorch();
-      isTorchOn = false;
+      if (await TorchLight.isTorchAvailable()) {
+        await TorchLight.disableTorch();
+        isTorchOn = false;
+      } else {
+        showSnackBar('Torch is not available on this device.');
+      }
     } catch (e) {
-      print('Could not disable torch: $e');
-    }
+      if (e.toString().contains('TorchCurrentlyInUse')) {
+        showSnackBar('Torch is currently in use by another application.');
+      } else {
+        showSnackBar('Could not disable torch: $e');
+      }
+    } 
   }
+
 
   Future<void> toggleTorch() async {
     if (isTorchOn) {
@@ -79,7 +143,8 @@ class TorchService {
       isAudioPlaying = true;
       await _audioPlayer.play(AssetSource('music/ringtone.mp3')); // Play audio from assets folder
     } catch (e) {
-      print('Could not play audio: $e');
+      //print('Could not play audio: $e');
+      showSnackBar('Could not stop audio: $e');
     }
   }
 
@@ -88,7 +153,8 @@ class TorchService {
       await _audioPlayer.stop(); // Stop audio playback
       isAudioPlaying = false;
     } catch (e) {
-      print('Could not stop audio: $e');
+      //print('Could not stop audio: $e');
+      showSnackBar('Could not stop audio: $e');
     }
   }
 }

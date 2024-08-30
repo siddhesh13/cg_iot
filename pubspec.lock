@@ -208,6 +208,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  light:
+    dependency: "direct main"
+    description:
+      name: light
+      sha256: "6d5c6f8c5d1da89d45d2d4718ee4b26f4bfe7ad30bc4c3674a3233a04270731c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   lints:
     dependency: transitive
     description:
@@ -240,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.0"
+  package_info:
+    dependency: "direct main"
+    description:
+      name: package_info
+      sha256: "6c07d9d82c69e16afeeeeb6866fe43985a20b3b50df243091bfc4a4ad2b03b75"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   path:
     dependency: transitive
     description:
@@ -312,54 +328,62 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  screen_brightness:
+  shared_preferences:
     dependency: "direct main"
     description:
-      name: screen_brightness
-      sha256: "7d4ac84ae26b37c01d6f5db7123a72db7933e1f2a2a8c369a51e08f81b3178d8"
+      name: shared_preferences
+      sha256: "746e5369a43170c25816cc472ee016d3a66bc13fcf430c0bc41ad7b4b2922051"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
-  screen_brightness_android:
+    version: "2.3.2"
+  shared_preferences_android:
     dependency: transitive
     description:
-      name: screen_brightness_android
-      sha256: "8c69d3ac475e4d625e7fa682a3a51a69ff59abe5b4a9e57f6ec7d830a6c69bd6"
+      name: shared_preferences_android
+      sha256: "480ba4345773f56acda9abf5f50bd966f581dac5d514e5fc4a18c62976bbba7e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
-  screen_brightness_ios:
+    version: "2.3.2"
+  shared_preferences_foundation:
     dependency: transitive
     description:
-      name: screen_brightness_ios
-      sha256: f08f70ca1ac3e30719764b5cfb8b3fe1e28163065018a41b3e6f243ab146c2f1
+      name: shared_preferences_foundation
+      sha256: c4b35f6cb8f63c147312c054ce7c2254c8066745125264f0c88739c417fc9d9f
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
-  screen_brightness_macos:
+    version: "2.5.2"
+  shared_preferences_linux:
     dependency: transitive
     description:
-      name: screen_brightness_macos
-      sha256: "70c2efa4534e22b927e82693488f127dd4a0f008469fccf4f0eefe9061bbdd6a"
+      name: shared_preferences_linux
+      sha256: "580abfd40f415611503cae30adf626e6656dfb2f0cee8f465ece7b6defb40f2f"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
-  screen_brightness_platform_interface:
+    version: "2.4.1"
+  shared_preferences_platform_interface:
     dependency: transitive
     description:
-      name: screen_brightness_platform_interface
-      sha256: "9f3ebf7f22d5487e7676fe9ddaf3fc55b6ff8057707cf6dc0121c7dfda346a16"
+      name: shared_preferences_platform_interface
+      sha256: "57cbf196c486bc2cf1f02b85784932c6094376284b3ad5779d1b1c6c6a816b80"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
-  screen_brightness_windows:
+    version: "2.4.1"
+  shared_preferences_web:
     dependency: transitive
     description:
-      name: screen_brightness_windows
-      sha256: c8e12a91cf6dd912a48bd41fcf749282a51afa17f536c3460d8d05702fb89ffa
+      name: shared_preferences_web
+      sha256: d2ca4132d3946fec2184261726b355836a82c33d7d5b67af32692aff18a4684e
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "2.4.2"
+  shared_preferences_windows:
+    dependency: transitive
+    description:
+      name: shared_preferences_windows
+      sha256: "94ef0f72b2d71bc3e700e025db3710911bd51a71cefb65cc609dd0d9a982e3c1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   sky_engine:
     dependency: transitive
     description: flutter
