@@ -1,7 +1,7 @@
 import 'package:cg_iot/utils/custom_snackbar.dart';
 import 'package:cg_iot/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:light/light.dart';
+import 'package:ambient_light/ambient_light.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +14,7 @@ class BrightnessScreen extends StatefulWidget {
 }
 
 class _BrightnessScreenState extends State<BrightnessScreen> {
-  Light? _lightSensor;
+  AmbientLight? _ambientLightSensor;
   StreamSubscription? _subscription;
   double _ambientLight = 0.0;
   Timer? _timer;
@@ -43,10 +43,10 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
 
   void _startAmbientLightSensor() {
     try {
-      _lightSensor = Light();
-      _subscription = _lightSensor?.lightSensorStream.listen((luxValue) {
+      _ambientLightSensor = AmbientLight();
+      _subscription = _ambientLightSensor?.ambientLightStream.listen((luxValue) {
         setState(() {
-          _ambientLight = luxValue.toDouble();
+          _ambientLight = luxValue;
         });
       }, onError: (error) {
         setState(() {
