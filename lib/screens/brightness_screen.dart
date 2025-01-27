@@ -1,6 +1,8 @@
 import 'package:cg_iot/utils/custom_appbar.dart';
+import 'package:cg_iot/utils/custom_drawer.dart';
 import 'package:cg_iot/utils/custom_snackbar.dart';
 import 'package:cg_iot/widgets/custom_text_field.dart';
+import 'package:cg_iot/widgets/info_button.dart';
 import 'package:flutter/material.dart';
 import 'package:ambient_light/ambient_light.dart';
 import 'dart:async';
@@ -19,6 +21,7 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
   StreamSubscription? _subscription;
   double _ambientLight = 0.0;
   Timer? _timer;
+  double brightnessValue = 0.5; 
 
   String _thingspeakApiKey = "";
   bool _isUploadInProgress = false;
@@ -55,6 +58,8 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
       _subscription = _ambientLightSensor?.ambientLightStream.listen((luxValue) {
         setState(() {
           _ambientLight = luxValue;
+          brightnessValue = _mapBrightnessValue(_ambientLight);
+          //print(brightnessValue);
         });
       }, onError: (error) {
         setState(() {
@@ -129,34 +134,51 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
     await prefs.setString('thingspeakApiKey', _thingspeakApiKey);
   }
 
+  Color _getIconColor(double value) {
+    // Map the brightness value to a color intensity
+    // For example: 0.0 is dark and 1.0 is bright
+    return Color.lerp(Colors.grey, Colors.orange, value)!;
+  }
+  double _mapBrightnessValue(double value) {
+  // Clamp the value to ensure it's within the expected range (0–1000)
+  double clampedValue = value.clamp(0, 2000);
+  
+  // Map the value to a 0.0–1.0 range
+  return clampedValue / 2000.0;
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         title: "Ambient Light"
       ),
+      drawer: CustomDrawer(), 
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+               Icon(
                 Icons.lightbulb_outline,
                 size: 100,
-                color: Colors.orange,
+                color: _getIconColor(brightnessValue),
               ),
               const SizedBox(height: 20),
               Text(
                 _isSensorAvailable
-                    ? 'Ambient Light: ${_ambientLight.toStringAsFixed(0)} lux'
+                    ? 'Ambient Light Intensity: ${_ambientLight.toStringAsFixed(0)}'
                     : 'Ambient light sensor not available',
-                style: Theme.of(context).textTheme.displayLarge,
+                style: TextStyle(fontSize: 22.0,),
               ),
               const SizedBox(height: 40),
               CustomTextField(
                 controller: _controller,
                 label: 'ThingSpeak API Key',
+                suffixIcon: InfoButton(
+                message: 'Provide your ThingSpeak API Key ( under Channel settings) to enable data uploads to the cloud.',
+                topOffset: 125,
+              ),
                 onChanged: (value) {
                   setState(() {
                     _thingspeakApiKey = value;
@@ -166,7 +188,7 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _isUploadInProgress ? null : _uploadToCloud,
+                onPressed:_isUploadInProgress ? null : _uploadToCloud,
                 
                 child: _isUploadInProgress
                     ? const CircularProgressIndicator()
@@ -178,4 +200,5 @@ class _BrightnessScreenState extends State<BrightnessScreen> {
       ),
     );
   }
+  
 }
